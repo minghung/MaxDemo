@@ -1,8 +1,12 @@
 class Calc:
+    """
+    Calc class allows you to save a series of numbers into a text file, and compute the total
+    """
     def __init__(self, filename):
         self.filename = filename
 
     def input(self):
+        "read integer from keyboard and save to file"
         buffer = ""
         with open(self.filename, "w") as f:
             while buffer.upper() != "EXIT":
@@ -14,6 +18,7 @@ class Calc:
                     pass
 
     def calc(self):
+        "read numbers from file and compute total"
         with open(self.filename) as f:
             lines = f.readlines()
         
