@@ -6,12 +6,12 @@ class Calc:
         self.filename = filename
 
     def input(self):
-        "read integer from keyboard and save to file"
+        "read integers from keyboard and save to file"
         buffer = ""
         with open(self.filename, "w") as f:
             while buffer.upper() != "EXIT":
                 try:
-                    buffer = input("Enter a number (type 'EXIT' to finish)? ")
+                    buffer = input("Enter a number (type 'EXIT' to end)? ")
                     n = int(buffer)
                     f.write(buffer+"\n")                
                 except ValueError:
