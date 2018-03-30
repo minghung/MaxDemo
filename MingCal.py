@@ -3,6 +3,10 @@ import datetime
 
 today = datetime.date.today()
 
+if "-h" in sys.argv:
+    print("python MingCal.py [-h] [month] [year]")
+    sys.exit()
+
 if len(sys.argv) < 2:
     today_month = today.month
     today_year = today.year
