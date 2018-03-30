@@ -52,12 +52,8 @@ for i in range(0,DayNum+firstDayWeekDay):
     if i < firstDayWeekDay:
         print(str(NoInMonth).rjust(3)+" ",end="")
     else:
-        if wc%7>0: 
-            print(str(next(dayitem)).rjust(3)+" ",end="")
-        else:
-            print(str(next(dayitem)).rjust(3)+"\n")            
+        print(str(next(dayitem)).rjust(3)+" ",end="")
+
+        if wc%7 == 0: 
+            print()            
     wc +=1
-
-
-
-
