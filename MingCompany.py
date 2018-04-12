@@ -68,7 +68,7 @@ def save_company(company):
     with open(filename, "wb") as f:
         pickle.dump(company, f)
 
-def open_company(company):
+def open_company():
     "Retore company from a file"
     filename = input("Enter filename to open? ")
 
@@ -86,7 +86,7 @@ def main():
         selection, func = select_menu()
 
         if selection==6:
-            my_company = func(my_company)
+            my_company = func()
         else:
             func(my_company)
 

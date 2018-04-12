@@ -43,7 +43,7 @@ class EmployeeRepository:
                 return emp
         return None
 
-    def get_employees_by_name(self, name=""):
+    def get_employees_by_name(self, name=None):
         "Return any employee whose name contains specified name."
 
         # result = []
@@ -56,7 +56,7 @@ class EmployeeRepository:
             raise StopIteration
 
         for emp in self._employees:
-            if name=="" or name.lower() in emp.name.lower():
+            if (name==None) or (name.lower() in emp.name.lower()):
                 yield emp
 
     def get_employee_by_id(self, id):
