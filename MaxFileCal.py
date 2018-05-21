@@ -19,7 +19,6 @@ class calc:
                 s=input("enter a number(EXIT to terminate)?")
                 if s.upper()=="EXIT":
                    break;
-                   
                 try:
                     f.write(int(s)+"\n")
                 except ValueError:        
@@ -59,10 +58,7 @@ class calc:
         print("product is ",p)        
 
 
-
-
 def main():    
-    
     fn=input("enter a filename?")   #輸入數字存放的檔名
     c=calc(fn)
     c.input()                       #將輸入的數字寫入檔案
