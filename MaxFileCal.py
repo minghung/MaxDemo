@@ -18,7 +18,7 @@ class calc:
             while True:
                 s=input("enter a number(EXIT to terminate)?")
                 if s.upper()=="EXIT":
-                   break;
+                   break
                 try:
                     f.write(int(s)+"\n")
                 except ValueError:        

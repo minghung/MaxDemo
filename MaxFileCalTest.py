@@ -1,5 +1,5 @@
 import unittest
-from MaxFileCal import *
+from MaxFileCal import calc
 
 class calcTest(unittest.TestCase):
     def Test_input(self):
