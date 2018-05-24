@@ -3,10 +3,10 @@ import pickle
 
 def showmember(team):
     '''將dict的內容顯示出來'''
-
     if team==[]:
         print("來自檔案")
         team=loadmember()
+        print(team)
     else:
         print("the team member is ")
         print("--------------")
