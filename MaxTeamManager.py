@@ -3,17 +3,14 @@ import pickle
 
 def showmember(team):
     '''將dict的內容顯示出來'''
-    if team==[]:
-        print("來自檔案")
-        team=loadmember()
-        print(team)
-    else:
-        print("the team member is ")
-        print("--------------")
-        for member in team :
-            print(member)
-            #print(member[0],member[1])
-        print("--------------")
+    if team == None:
+        return
+    print("the team member is ")
+    print("--------------")
+    for member in team :
+        print(member)
+        #print(member[0],member[1])
+    print("--------------")
 
 def loadmember():
     '''將資料由檔案取出放進dict'''
@@ -22,10 +19,11 @@ def loadmember():
     try:
         with open(filename, "rb") as f:
             return pickle.load(f)
-    except:
-        print(r"存檔失敗!!")
-
-
+    except TypeError:
+        print(r"讀檔失敗!!")
+    except FileNotFoundError:
+        print(r"檔案不存在!!")
+        
 def savemember(team):
     '''將dict的資料放進檔案內'''
     print(team)
@@ -44,13 +42,26 @@ def addmember(team):
     newmember[id]=name
     team.append(newmember)
 
-def deletemember():
+def deletemember(team):
     '''刪掉dict內的資料'''
     #print ("delete member...")
+    #name = input("Enter the name of member? ")
 
-def searchmember():
+def searchmember(team):
     '''找出dict內符合的資料'''
     #print ("search member...")
+    item=input("chosice id or name?")
+    if item=="id":
+        id=input("input id:")
+        for member in team:
+            if id in member.id:
+                return member.id,"-",member.name
+
+    else:
+        name=input("input name:")
+        for member in team:
+            if name in member.name:
+                return  member.id,"-",member.name 
 
 def takeaway():
     pass
@@ -77,13 +88,25 @@ def main():
     
 
         if an==1:
+            if team==[]:
+                print("來自檔案")
+                team=loadmember()
+                print(team)
+            else:
+                print("來自list")
             showmember(team)
         elif an==2:
             savemember(team)
         elif an==3:
             addmember(team)
         elif an==4:
-            deletemember()
+            if team==[]:
+                print("來自檔案")
+                team=loadmember()
+            else:
+                print("來自list")
+            deletemember(team)
+            
         elif an==5:
             searchmember()
         else:
