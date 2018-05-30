@@ -1,18 +1,30 @@
 import sys
 import pickle
 
+def membersearch(team,tgid=None,tgname=None):
+    print(team)
+    result="比對不到符合的資料"
+    if tgid != None:
+        for id,name in team.items():
+            if tgname == id:
+                result= id,"-",name
+    elif tgname != None:
+        for id,name in team.items():
+            if tgname == name:
+                result= id,"-",name
+    return result
+
 def showmember(team):
     '''將dict的內容顯示出來'''
     if team == None:
         return
     print("the team member is ")
     print("--------------")
-    for member in team :
-        print(member)
-        #print(member[0],member[1])
+    for id,name in team.items() :
+        print(id,"-",name)
     print("--------------")
 
-def loadmember():
+def __loadmember():
     '''將資料由檔案取出放進dict'''
     filename = input("Enter filename to open? ")
 
@@ -26,8 +38,7 @@ def loadmember():
         
 def savemember(team):
     '''將dict的資料放進檔案內'''
-    print(team)
-    filename = input("Enter filename to save? ")
+    filename = input(r"Enter filename to save? ")
     
     with open(filename, "wb") as f:
         pickle.dump(team, f)
@@ -36,32 +47,42 @@ def savemember(team):
 
 def addmember(team):
     '''將資料放進dict'''
-    newmember={}
-    id = int(input("New Employee Id? "))
+    id = input("New Employee Id? ")
     name = input("New Employee Name? ")
-    newmember[id]=name
-    team.append(newmember)
+    print(team)
+    result=membersearch(team=team,tgname=name)
+    print(result)
+    if "-" in result:
+        result=name+"已存在"
+        print(result)
+    else:
+        team[id]=name
+        result=name+"新增完成"
+        print(result)
 
 def deletemember(team):
     '''刪掉dict內的資料'''
-    #print ("delete member...")
-    #name = input("Enter the name of member? ")
+    tgname = input("Enter the name of member? ")
+    result=membersearch(team=team,tgname=tgname)
+    if "-" in result:
+        del team[id]
+        result=tgname+"已刪除"
+        print(result)
+    else:
+        result=tgname+"不是member"
+        print(result)
 
 def searchmember(team):
     '''找出dict內符合的資料'''
-    #print ("search member...")
-    item=input("chosice id or name?")
+    item=input("input id or name?")
     if item=="id":
-        id=input("input id:")
-        for member in team:
-            if id in member.id:
-                return member.id,"-",member.name
-
+        tgid=input("input id:")
+        result=membersearch(team=team,tgid=tgid)
     else:
-        name=input("input name:")
-        for member in team:
-            if name in member.name:
-                return  member.id,"-",member.name 
+        tgname=input("input name:")
+        result=membersearch(team=team,tgname=tgname)
+    
+    print("查詢的結果為",result)
 
 def takeaway():
     pass
@@ -70,11 +91,11 @@ def takeaway():
 
 def main():
     '''初始'''
-    #team=[{1:"max"},{2:"nana"}]
-    team=[]
+    #team={"1":"max","2":"nana"}
+    team={}
     '''顯示選單'''
     while True:
-        print ()
+        print ("input below number that you want to do:")
         print ("1.show member")
         print ("2.save team member")
         print ("3.add member")
@@ -88,27 +109,31 @@ def main():
     
 
         if an==1:
-            if team==[]:
-                print("來自檔案")
-                team=loadmember()
-                print(team)
-            else:
-                print("來自list")
+            if team=={}:
+                print("將由檔案取出team member的清單!")
+                team=__loadmember()
+
             showmember(team)
+        
         elif an==2:
             savemember(team)
+        
         elif an==3:
+            if team=={}:
+                team=__loadmember()
             addmember(team)
+        
         elif an==4:
-            if team==[]:
-                print("來自檔案")
-                team=loadmember()
-            else:
-                print("來自list")
-            deletemember(team)
+            if team=={}:
+                team=__loadmember()
             
+            deletemember(team)
+
         elif an==5:
-            searchmember()
+            if team=={}:
+                team=__loadmember()
+            searchmember(team)
+        
         else:
             takeaway()
             
