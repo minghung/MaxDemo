@@ -1,17 +1,20 @@
 import sys
 import pickle
+import json
 
-def membersearch(team,tgid=None,tgname=None):
-    print(team)
+def __membersearch(team,tgid=None,tgname=None):
     result="比對不到符合的資料"
-    if tgid != None:
-        for id,name in team.items():
-            if tgname == id:
-                result= id,"-",name
-    elif tgname != None:
-        for id,name in team.items():
-            if tgname == name:
-                result= id,"-",name
+    if team=={}:
+        pass
+    else:
+        if tgid != None:
+            for id,name in team.items():
+                if tgid == id:
+                    result= id,"-",name
+        elif tgname != None:
+            for id,name in team.items():
+                if tgname == name:
+                    result= id,"-",name
     return result
 
 def showmember(team):
@@ -24,7 +27,7 @@ def showmember(team):
         print(id,"-",name)
     print("--------------")
 
-def __loadmember():
+def __loadmemberfrompickle():
     '''將資料由檔案取出放進dict'''
     filename = input("Enter filename to open? ")
 
@@ -33,43 +36,67 @@ def __loadmember():
             return pickle.load(f)
     except TypeError:
         print(r"讀檔失敗!!")
+        return {}
     except FileNotFoundError:
         print(r"檔案不存在!!")
-        
-def savemember(team):
+        return {}
+
+def __loadmemberfromjson():
+    '''將資料由檔案取出放進dict'''
+    filename = input("Enter filename to open? ")
+
+    try:
+        with open(filename, "rb") as f:
+            return json.load(f)
+    except TypeError:
+        print(r"讀檔失敗!!")
+        return {}
+    except FileNotFoundError:
+        print(r"檔案不存在!!")
+        return {}
+
+
+def savemembertopickle(team):
     '''將dict的資料放進檔案內'''
     filename = input(r"Enter filename to save? ")
     
     with open(filename, "wb") as f:
         pickle.dump(team, f)
-    
-    del team
+
+    team={}
+
+
+def savemembertojson(team):
+    '''將dict的資料放進檔案內'''
+    filename = input(r"Enter filename to save? ")
+    json.dump(team, open(filename,"w"))
+    team={}
 
 def addmember(team):
     '''將資料放進dict'''
     id = input("New Employee Id? ")
     name = input("New Employee Name? ")
-    print(team)
-    result=membersearch(team=team,tgname=name)
-    print(result)
+
+    result=__membersearch(team=team,tgid=id)
+
     if "-" in result:
-        result=name+"已存在"
+        result=id+"已存在"
         print(result)
     else:
         team[id]=name
-        result=name+"新增完成"
+        result=id,"-",name,"新增完成"
         print(result)
 
 def deletemember(team):
     '''刪掉dict內的資料'''
-    tgname = input("Enter the name of member? ")
-    result=membersearch(team=team,tgname=tgname)
+    tgid = input("Enter the id of member? ")
+    result=__membersearch(team=team,tgid=tgid)
     if "-" in result:
-        del team[id]
-        result=tgname+"已刪除"
+        del team[tgid]
+        result= tgid+"已刪除"
         print(result)
     else:
-        result=tgname+"不是member"
+        result=tgid+"不是member"
         print(result)
 
 def searchmember(team):
@@ -77,10 +104,10 @@ def searchmember(team):
     item=input("input id or name?")
     if item=="id":
         tgid=input("input id:")
-        result=membersearch(team=team,tgid=tgid)
+        result=__membersearch(team=team,tgid=tgid)
     else:
         tgname=input("input name:")
-        result=membersearch(team=team,tgname=tgname)
+        result=__membersearch(team=team,tgname=tgname)
     
     print("查詢的結果為",result)
 
@@ -111,27 +138,40 @@ def main():
         if an==1:
             if team=={}:
                 print("將由檔案取出team member的清單!")
-                team=__loadmember()
+                #team=__loadmemberfrompickle()
+                team=__loadmemberfromjson()
+                
 
             showmember(team)
         
         elif an==2:
-            savemember(team)
-        
+            if team!={}:
+                #savemembertopickle(team)
+                savemembertojson(team)
+            else:
+                print("無資料可以存檔!")
+                break
+
         elif an==3:
             if team=={}:
-                team=__loadmember()
+                #team=__loadmemberfrompickle()
+                team=__loadmemberfromjson()
+                
             addmember(team)
         
         elif an==4:
             if team=={}:
-                team=__loadmember()
+                #team=__loadmemberfrompickle()
+                team=__loadmemberfromjson()
+                
             
             deletemember(team)
 
         elif an==5:
             if team=={}:
-                team=__loadmember()
+                #team=__loadmemberfrompickle()
+                team=__loadmemberfromjson()
+                
             searchmember(team)
         
         else:
