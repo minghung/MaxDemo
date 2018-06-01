@@ -1,8 +1,33 @@
 import sys
-import pickle
-import json
+import MaxTeamManagerClassbyAccessFile as AccessFile
 
-'''永久儲存資料'''
+'''處理選單指令'''
+
+def menu():
+    menu=[
+            {'itemDesc':'0.exit','func':takeaway},
+            {'itemDesc':'1.show member','func':showmember},
+            {'itemDesc':'2.save team member','func':AccessFile.savemembertojson},
+            {'itemDesc':'3.add member','func':addmember},
+            {'itemDesc':'4.delete member','func':deletemember},
+            {'itemDesc':'5.search member','func':searchmember}
+        ]
+
+    while True:
+        print ("input below number that you want to do:")
+        for item in menu:
+            print(item['itemDesc'])
+
+        try:
+            an=int(input("please enter a number of action(0~9):"))
+            
+            if an<1 or an >len(menu):
+                raise ValueError
+            break
+        except:
+            print(an," not a number,seclect again!!")
+    return (an,menu[an]['func'])
+
 def __membersearch(team,tgid=None,tgname=None):
     result="比對不到符合的資料"
     if team=={}:
@@ -27,76 +52,6 @@ def showmember(team):
     for id,name in team.items() :
         print(id,"-",name)
     print("--------------")
-
-def __loadmemberfrompickle():
-    '''將資料由檔案取出放進dict'''
-    filename = input("Enter filename to open? ")
-
-    try:
-        with open(filename, "rb") as f:
-            return pickle.load(f)
-    except TypeError:
-        print(r"讀檔失敗!!")
-        return {}
-    except FileNotFoundError:
-        print(r"檔案不存在!!")
-        return {}
-
-def __loadmemberfromjson():
-    '''將資料由檔案取出放進dict'''
-    filename = input("Enter filename to open? ")
-
-    try:
-        with open(filename, "rb") as f:
-            return json.load(f)
-    except TypeError:
-        print(r"讀檔失敗!!")
-        return {}
-    except FileNotFoundError:
-        print(r"檔案不存在!!")
-        return {}
-
-'''處理選單指令'''
-def menu():
-    menu=[
-            {'itemDesc':'0.exit','func':takeaway},
-            {'itemDesc':'1.show member','func':showmember},
-            {'itemDesc':'2.save team member','func':savemembertojson},
-            {'itemDesc':'3.add member','func':addmember},
-            {'itemDesc':'4.delete member','func':deletemember},
-            {'itemDesc':'5.search member','func':searchmember}
-        ]
-
-    while True:
-        print ("input below number that you want to do:")
-        for item in menu:
-            print(item['itemDesc'])
-
-        try:
-            an=int(input("please enter a number of action(0~9):"))
-            
-            if an<1 or an >len(menu):
-                raise ValueError
-            break
-        except:
-            print(an," not a number,seclect again!!")
-    return (an,menu[an]['func'])
-
-def savemembertopickle(team):
-    '''將dict的資料放進檔案內'''
-    filename = input(r"Enter filename to save? ")
-    
-    with open(filename, "wb") as f:
-        pickle.dump(team, f)
-
-    team={}
-
-
-def savemembertojson(team):
-    '''將dict的資料放進檔案內'''
-    filename = input(r"Enter filename to save? ")
-    json.dump(team, open(filename,"w"))
-    team={}
 
 def addmember(team):
     '''將資料放進dict'''
@@ -141,7 +96,6 @@ def takeaway():
     pass
     #sys.exit()
 
-
 def main():
     '''初始'''
     #team={"1":"max","2":"nana"}
@@ -161,7 +115,7 @@ def main():
             if team=={}:
                 if an==1:
                     print("將由檔案取出team member的清單!")
-                team=__loadmemberfromjson()
+                team=AccessFile.loadmemberfromjson()
             func(team)
             
 if __name__=="__main__":
