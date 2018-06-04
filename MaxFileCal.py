@@ -58,7 +58,7 @@ class calc:
         print("product is ",p)        
 
 
-def main():    
+def xmain():    
     fn=input("enter a filename?")   #輸入數字存放的檔名
     c=calc(fn)
     c.input()                       #將輸入的數字寫入檔案
@@ -68,7 +68,7 @@ def main():
     
 
 if __name__ == "__main__":
-    main()
+    xmain()
 
 
 

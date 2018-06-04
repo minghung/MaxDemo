@@ -67,7 +67,8 @@ def menu():
             {'itemDesc':'5.search member','func':searchmember}
         ]
 
-    while True:
+    is_continued = True
+    while is_continued:
         print ("input below number that you want to do:")
         for item in menu:
             print(item['itemDesc'])
@@ -75,11 +76,13 @@ def menu():
         try:
             an=int(input("please enter a number of action(0~9):"))
             
-            if an<1 or an >len(menu):
+            if an<0 or an >len(menu):
                 raise ValueError
-            break
+            is_continued = False
+
         except:
             print(an," not a number,seclect again!!")
+
     return (an,menu[an]['func'])
 
 def savemembertopickle(team):
@@ -95,7 +98,9 @@ def savemembertopickle(team):
 def savemembertojson(team):
     '''將dict的資料放進檔案內'''
     filename = input(r"Enter filename to save? ")
-    json.dump(team, open(filename,"w"))
+    with open(filename,"w") as f:
+        json.dump(team, f)
+
     team={}
 
 def addmember(team):
@@ -138,8 +143,8 @@ def searchmember(team):
     print("查詢的結果為",result)
 
 def takeaway():
-    pass
-    #sys.exit()
+    print("Terminating programming...")
+    sys.exit()
 
 
 def main():
@@ -150,6 +155,7 @@ def main():
     '''顯示選單'''
     while True:
         an, func=menu()
+
         if an==0:
             func()
         elif an==2:

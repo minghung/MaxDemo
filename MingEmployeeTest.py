@@ -8,6 +8,16 @@ class EmployeeTest(unittest.TestCase):
         company += Employee(2, "Employee2")
         self.assertEqual(2, len(company._employees))
 
+    def test_add_employee_with_duplicates(self):
+        company = EmployeeRepository()
+        company.add_employee(Employee(1, "Emp1"))
+        self.assertEqual(1, len(company._employees))
+
+        try:
+            company.add_employee(Employee(1, "Emp1"))
+        except ValueError:           
+            self.assertEqual(1, len(company._employees))
+
     def test_remove_employee(self):
         company = EmployeeRepository()
         emp = Employee(1, "Employee1")
