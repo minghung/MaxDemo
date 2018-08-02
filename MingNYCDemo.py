@@ -21,6 +21,7 @@ clean_df["loc"] = clean_df.apply(lambda row: parseLocation(row["Location 1"]), a
 df2 = clean_df[(clean_df["OccurrenceYear"]==2015) & (clean_df["Offense"]=="BURGLARY")]
 
 '在 谷歌地圖 上繪製數據，用於生成HTML和 javascript，以便在 谷歌地圖 上呈現所有數據。 '
+'使用地名限制地圖呈現時的區域'
 gmap = gmplot.GoogleMapPlotter.from_geocode("紐約市")
 
 lats = []
